@@ -1,0 +1,18 @@
+{
+	"repoName": "fpp-WledEffects",
+	"name": "WLED Effects",
+	"author": "Adam Coulombe",
+	"description": "This plugin displays multiple big buttons in a grid on a page.  Each button can be individually configured to run a different user script.  The title and color of each button can also be configured.",
+	"homeURL": "https://github.com/adamcoulombe/fpp-WledEffects",
+	"srcURL": "https://github.com/adamcoulombe/fpp-WledEffects.git",
+	"bugURL": "https://github.com/adamcoulombe/fpp-WledEffects/issues",
+	"versions": [
+		{
+			"minFPPVersion": "5.0",
+			"maxFPPVersion": "0",
+			"branch": "master",
+			"sha": ""
+		}
+	]
+}
+
