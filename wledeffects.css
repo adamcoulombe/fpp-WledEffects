@@ -1,3 +1,110 @@
 *, *:before, *:after {
     box-sizing: border-box;
   }
+#fpp-WledEffects-Models{
+  margin-top: -50px;
+}
+
+.fpp-WledEffects-Model-Selections{
+  height: 50px;
+  overflow: hidden;
+  position: relative;
+}
+.fpp-WledEffects-Model-Toggle{
+  float: right;
+  appearance: none;
+  border-radius: 12px;
+  background-color: rgb(226, 226, 226);
+  padding: 0.5em 0.6em;
+  font-size: 1.4em;
+  border:none;
+  position: relative;
+}
+.fpp-WledEffects-Model-Toggle i{
+  transition: 0.2s all ease-in-out;
+}
+.fpp-WledEffects-Model-Selections.open .fpp-WledEffects-Model-Toggle i{
+  transform: rotateZ(180deg);
+}
+.fpp-WledEffects-Model-Selections:after {
+  content:'';
+  width:calc(100% - 50px);
+  height:100%;    
+  position:absolute;
+  display: block;
+  left:0;
+  top:0;
+  background:linear-gradient(rgba(245,245,245,0), rgb(245, 245, 245));
+}
+.fpp-WledEffects-Model-Selections label{
+  cursor: pointer;
+  display: inline-block;
+  color: #5a5a5a;
+  
+  font-size: 0.8em;
+  margin-right: 0.6em;
+}
+
+.fpp-WledEffects-Model-Selections label input[type="checkbox"]{
+  margin-right: 0.1em;
+  width: 12px;
+  height: 12px;
+  background-size: contain;
+  
+  margin-right: 0.3em;
+}
+
+.fpp-WledEffects-Model-Selections.open{
+  height: auto;
+}
+.fpp-WledEffects-Model-Selections.open:after{
+  content: none;
+}
+  .fpp-WledEffects-Model-Selections.open label{
+    margin-right: 0.5em;
+    margin-bottom:0.5em;
+    padding: 5px;
+    cursor: pointer;
+    display: inline-block;
+    border: 1px solid #DADADA;
+    border-radius: 8px;
+  }
+  .fpp-WledEffects-Model-Selections.open label:hover{
+    border: 1px solid #c2c2c2;
+    background-color: #f1f1f1;
+  }
+  .fpp-WledEffects-Model-Selections.open label input[type="checkbox"]{
+    margin-right: 0.5em;
+    width: 24px;
+    height: 24px;
+  }
+  .fpp-WledEffects-Model-Selections.open label.selected{
+    border: 1px solid #56B760;
+    background-color: #daeedc ;
+  }
+  .fpp-WledEffects-Model-Grouping-Heading label{
+    font-size: 1.4em;
+    font-weight: bold;
+    display: block;
+    cursor: pointer;
+    margin-bottom: 0.5em;
+  }
+  .fpp-WledEffects-Model-Grouping-Heading input[type="checkbox"]{
+    margin-right: 0.5em;
+  }
+  #availableWledEffects button{
+    appearance: none;
+    font-size: 1.4em;
+    background-color: #f1f1f1;
+    padding:1em;
+    border:none;
+    font-weight: bold;
+    border-radius: 12px;
+    margin-right: 1em;
+    margin-bottom:1em;
+    width: 100%;
+    text-align: center;
+  }
+  #availableWledEffects button:hover{
+    background-color: #dfdfdf;
+  }
