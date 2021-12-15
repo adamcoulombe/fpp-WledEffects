@@ -1,47 +1,22 @@
-// $.ajax({
-//     type: "GET",
-//     url: 'fppjson.php?command=getPluginJSON&plugin=fpp-WledEffects',
-//     dataType: 'json',
-//     contentType: 'application/json',
-//     success: function (data) {
-//     }
-// });
-
 var uniqueSystemIps={};
+var wledEffectsConfig = {}
 
+function SaveWledEffectsConfig() {
+    var data = JSON.stringify(wledEffectsConfig);
+    console.log(data)
+    $.ajax({
+        type: "POST",
+        url: 'fppjson.php?command=setPluginJSON&plugin=fpp-WledEffects',
+        dataType: 'json',
+        data: data,
+        processData: false,
+        contentType: 'application/json',
+        success: function (data) {
 
-// $.ajax({
-//     type: "GET",
-//     url: '/api/fppd/multiSyncSystems',
-//     dataType: 'json',
-//     contentType: 'application/json',
-//     success: function (data) {
-//         console.log(data)
-//         $.each(data.systems,function(i,v){
-//             if(v.uuid!=""){
-//                 uniqueSystems[v.uuid]=v;
-//             }else{
-//                 uniqueSystems[i]=v;
-//             }
+        }
+    });
+}
 
-//         })
-//         $.each(uniqueSystems,function(i,v){
-
-//             var nodestat=$('<li/>');
-//             nodestat.html(v.address);
-//             $('#fpp-WledEffects').append(nodestat);
-//             $.ajax({
-//                 type: "GET",
-//                 url: '/plugin.php?plugin=fpp-WledEffects&page=wledjson.php&action=get_models&ip='+v.address+'&nopage=1',
-//                 dataType: 'json',
-//                 contentType: 'application/json',
-//                 success: function (data) {
-//                     console.log(data);
-//                 }
-//             });
-//         })
-//     }
-// });
 function getUniqueSystemIps(uniqueSystems){
     var ips=[];
     Object.keys(uniqueSystems).forEach(function(key, index) {
@@ -57,18 +32,24 @@ function getSelectedModels(){
     return selectedModels;
 }
 
+function getSelectedSystems(){
+    var selectedSystems=[]
+    $('#fpp-WledEffects-systems input[type=checkbox]:is(:checked)').each(function(){
+        selectedSystems.push($(this).data('address'));
+    })
+    return selectedSystems;
+}
+
 
 $(function(){
     $.each(availableWledEffects,function(i,v){
         var effectButton=$('<button>'+v.substring(7)+'</button>').click(function(){
             setWledEffect({
-                hosts:uniqueSystemIps,
-                models:getSelectedModels(),
                 effect:v
 
             })
         })
-        $('#availableWledEffects').append($('<div class="col-4" />').append(effectButton));
+        $('#availableWledEffects').append($('<div class="col-lg-4 col-md-66" />').append(effectButton));
     });
     $.ajax({
         type: "GET",
@@ -77,77 +58,195 @@ $(function(){
         contentType: 'application/json',
         success: function (data) {
             uniqueSystems={}
-            $.each(data.systems,function(i,v){
+            var systems = data.systems;
+            $.each(systems,function(i,v){
                 if(v.uuid!=""){
                     uniqueSystems[v.uuid]=v;
                 }else{
                     uniqueSystems[i]=v;
-                }
+                }          
             })
             uniqueSystemIps=getUniqueSystemIps(uniqueSystems);
-        }
-    });
-    $.ajax({
-        type: "GET",
-        url: '/api/models',
-        dataType: 'json',
-        contentType: 'application/json',
-        success: function (data) {
-            console.log(data);
-            $.each(data,function(i,v){
-                $('.fpp-WledEffects-Model-Selections').append(
-                    $('<label>'+v.Name+'</label>').prepend(
-                        $('<input type="checkbox"/>').data('model-name',v.Name).on('change',function(){
-                            if($(this).is(':checked')){
-                                $(this).parent().addClass('selected');
-                            }else{
-                                $(this).parent().removeClass('selected');
+
+            $.ajax({
+                type: "GET",
+                url: 'fppjson.php?command=getPluginJSON&plugin=fpp-WledEffects',
+                //url: 'legacyBigButtonsSampleConfig.json',
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (json) {
+                    var data = JSON.parse(json)
+                    if(!data || data.length<1){
+                        wledEffectsConfig={
+                            colors:[
+                                '#ff0000',
+                                '#00ff00',
+                                '#0000ff'
+                            ],
+                            brightness:128,
+                            speed:128,
+                            intensity:128,
+                            bufferMapping:'Horizontal',
+                            palette:'Default',
+                            multisync:true,
+                            models:[],
+                            systems:uniqueSystemIps
+                        }
+                    }else{
+                        wledEffectsConfig = data;
+                    }
+                    $.ajax({
+                        type: "GET",
+                        url: '/api/models',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function (data) {
+                            $.each(data,function(i,v){
+                                var isChecked = wledEffectsConfig.models.indexOf(v.Name)>-1 ? 'checked':'';
+                                $('.fpp-WledEffects-Model-Selections').append(
+                                    $('<label>'+v.Name+'</label>').addClass(isChecked?"selected":"").prepend(
+                                        $('<input type="checkbox" '+isChecked+'/>').data('model-name',v.Name).on('change',function(){
+                                            if($(this).is(':checked')){
+                                                $(this).parent().addClass('selected');
+                                            }else{
+                                                $(this).parent().removeClass('selected');
+                                            }
+    
+                                            handleModelChecked();
+                                            SaveWledEffectsConfig();
+                                        })
+                                    )
+                                );
+                            });
+                            handleModelChecked();
+                            $.each(systems,function(i,v){
+                                var isChecked = wledEffectsConfig.systems.indexOf(v.address)>-1 ? 'checked':'';
+                                $('#fpp-WledEffects-systems').append(
+                                    $('<label>'+v.hostname+' ('+v.address+')</label>').addClass(isChecked?"selected":"").prepend(
+                                        $('<input type="checkbox" '+isChecked+'/>').data('address',v.address).on('change',function(){
+                                            if($(this).is(':checked')){
+                                                $(this).parent().addClass('selected');
+                                            }else{
+                                                $(this).parent().removeClass('selected');
+                                            }
+                                            handleSystemChecked();
+                                            SaveWledEffectsConfig();
+                                        })
+                                    )
+                                );
+                          
+                            });
+                            handleSystemChecked();
+                            $('#fpp-WledEffects-MultisyncEnabled').prop('checked',wledEffectsConfig.multisync).on('change',function(){
+                                wledEffectsConfig.multisync = $(this).is(':checked');
+                                handleMultisyncChecked();
+                                SaveWledEffectsConfig();
+                            })
+                        }
+                    });
+                    $('#fpp-WledEffects-Colors button').each(function(i,v){
+                        var wledColorId = $(this).data('wled-color-id');
+                        $(this).colpick({
+                            colorScheme:'flat',
+                            layout:'rgbhex',
+                            color:wledEffectsConfig.colors[i],
+                            onSubmit:function(hsb,newHex,rgb,el) {
+                                setWledColor(wledColorId,newHex);
                             }
-                        })
-                    )
-                );
-            })
-            
+                        }).css({backgroundColor:wledEffectsConfig.colors[i]});
+                    });
+                    $('#fpp-WledEffects-brightness').val(wledEffectsConfig.brightness).on('change',function(){
+                        wledEffectsConfig.brightness=$(this).val();
+                        SaveWledEffectsConfig();
+                    });
+                    $('#fpp-WledEffects-speed').val(wledEffectsConfig.speed).on('change',function(){
+                        wledEffectsConfig.speed=$(this).val();
+                        SaveWledEffectsConfig();
+                    });
+                    $('#fpp-WledEffects-intensity').val(wledEffectsConfig.intensity).on('change',function(){
+                        wledEffectsConfig.intensity=$(this).val();
+                        SaveWledEffectsConfig();
+                    });
+                }
+            });
         }
-    });
-    $('#submitEffects').on('click',function(){
-        setWledEffect({
-            hosts:uniqueSystemIps,
-            models:["Arches","LeftEntrance"]
-        });
-    });
+    })
+
+        
+  
+
     $('#cancelEffects').on('click',function(){
-        stopWledEffects({
-            hosts:uniqueSystemIps,
-            models:getSelectedModels()
-        });
+        stopWledEffects();
     });
     $('.fpp-WledEffects-Model-Grouping-Heading input[type=checkbox]').on('change',function(){
         $(this).parent().parent().next().find('input[type=checkbox]').prop('checked', $(this).is(':checked'));
-    })
+        if($(this).is(':checked')){
+            $(this).parent().parent().next().find('input[type=checkbox]').parent().addClass("selected")
+        }else{
+            $(this).parent().parent().next().find('input[type=checkbox]').parent().removeClass("selected")
+        }
+        wledEffectsConfig.models = getSelectedModels();
+        SaveWledEffectsConfig();
+    });
+    
     $('.fpp-WledEffects-Model-Toggle').click(function(){
         $(this).parent().toggleClass('open')
     })
-})
 
+})
+function handleModelChecked(){
+    var allChecked = true;
+    $('.fpp-WledEffects-Model-Selections input[type=checkbox]').each(function(){
+        if(!$(this).is(':checked')){
+            allChecked=false
+        }
+    })
+    $('.fpp-WledEffects-Model-Grouping-Heading input[type=checkbox]').prop('checked', allChecked);
+    wledEffectsConfig.models = getSelectedModels();
+    
+}
+function handleSystemChecked(){
+    wledEffectsConfig.systems = getSelectedSystems();
+    
+}
+function handleMultisyncChecked(){
+    $('#fpp-WledEffects-systems input[type=checkbox]').each(function(){
+        if(uniqueSystemIps.indexOf($(this).data('address'))>-1){          
+            $(this).prop('checked', $('#fpp-WledEffects-MultisyncEnabled').is(':checked'));
+            if($('#fpp-WledEffects-MultisyncEnabled').is(':checked')){
+                $(this).parent().addClass('selected');
+            }else{
+                $(this).parent().removeClass('selected');
+            }
+        }
+    });
+    handleSystemChecked();
+
+}
+function setWledColor(wledColorId,newHex){
+
+        $('[data-wled-color-id='+wledColorId+']').css({backgroundColor:'#'+newHex}).data('color','#'+newHex).colpickHide();
+        wledEffectsConfig["colors"][wledColorId-1]='#'+newHex;
+        SaveWledEffectsConfig();
+}
 function stopWledEffects(options){
+    console.log(wledEffectsConfig)
     $.ajax({
         type: "POST",
         url: '/api/command',
         dataType: 'json',
         data: JSON.stringify({
             "command":"Overlay Model Effect",
-            "multisyncCommand":true,
-            "multisyncHosts":options.hosts.join(','),
+            "multisyncCommand":wledEffectsConfig.multisync,
+            "multisyncHosts":wledEffectsConfig.systems.join(','),
             "args": [
-                options.models.join(','),
+                wledEffectsConfig.models.join(','),
                 "Enabled",
                 "Stop Effects"
             ]
         }),
         contentType: 'application/json',
         success: function (data) {
-            console.log(data);
         }
     });
 }
@@ -158,44 +257,28 @@ function setWledEffect(options){
         dataType: 'json',
         data: JSON.stringify({
             "command":"Overlay Model Effect",
-            "multisyncCommand":true,
-            "multisyncHosts":options.hosts.join(','),
+            "multisyncCommand":wledEffectsConfig.multisync,
+            "multisyncHosts":wledEffectsConfig.systems.join(','),
             "args": [
-                options.models.join(','),
+                wledEffectsConfig.models.join(','),
                 "Enabled", //Auto Enable/Disable
                 options.effect,
-                "Horizontal", //Buffer Mapping
-                "128", //brightness
-                "128", //speed
-                "128", //intensity
-                "Default",  //pallette
-                "#ff0000",
-                "#0000ff",
-                "#000000"
+                wledEffectsConfig.bufferMapping, //Buffer Mapping
+                wledEffectsConfig.brightness, //brightness
+                wledEffectsConfig.speed, //speed
+                wledEffectsConfig.intensity, //intensity
+                wledEffectsConfig.palette,  //pallette
+                wledEffectsConfig.colors[0],
+                wledEffectsConfig.colors[1],
+                wledEffectsConfig.colors[2]
             ]
         }),
         contentType: 'application/json',
         success: function (data) {
-            console.log(data);
         }
     });
 }
 
-function SaveConfig(config) {
-    var data = JSON.stringify(config);
-    $.ajax({
-        type: "POST",
-        url: 'fppjson.php?command=setPluginJSON&plugin=fpp-WledEffects',
-        dataType: 'json',
-        async: false,
-        data: data,
-        processData: false,
-        contentType: 'application/json',
-        success: function (data) {
-
-        }
-    });
-}
 
 var availableWledEffects=["WLED - Breathe",
 "WLED - Wipe",

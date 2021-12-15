@@ -1,13 +1,6 @@
-Big Buttons are configurable.<br>
-<br>
-The title listed above the buttons can be configured along with the font
-size.  The font size is configurable to look better on your device.  The
-font size applies to both the button descriptions and the title text at
-the top of the page.<br>
-<br>
-For each button, you can configure the description, color, and the name of
-the script to be run when the button is clicked.  The script output will
-not be displayed.  A button will change color signifying when it has
-been pressed, but no other feedback will be given as to the success or
-failure of the executed script.<br>
-<br>
+<h2>FPP WLED Effect Plugin Help</h2>
+<p>WLED Effects are applied to overlay models. Simply select which overlay models you wish to apply an effect to.</p>
+<p>You can select your own choice of colors, although not all WLED effects will necessarily use your color pallete</p>
+<h2>Settings</h2>
+<p>On the settings tab you can select whether you want other FPP devices to recieve the effects. 
+    You want multisync enabled particularly if one of the models you want to apply an effect to is controlled by another FPP device. </p>
