@@ -1,12 +1,9 @@
-fpp-BigButtons
+FPP WLED Effects
 ===============
 
-FPP Plugin for adding some big user-configurable buttons for running
-scripts.
+Plugin that adds a simple gui for controlling FPP's overlay model wled effects.
 
-Useful Links:
 
-- `Falcon Christmas forums <http://falconchristmas.com>`_
-- `Falcon Player sub-forum <http://falconchristmas.com/forum/index.php/board,8.0.html>`_
-- `Wiki <http://falconchristmas.com/wiki/index.php/Main_Page>`_
+![fpp-WledEffects](https://i.ibb.co/wWXHL5Q/wledeffects.png)
 
+Some additional details are noted in the help modal (F1) on the plugin page.
