@@ -119,9 +119,8 @@ $(function(){
                 //url: 'legacyBigButtonsSampleConfig.json',
                 dataType: 'json',
                 contentType: 'application/json',
-                success: function (json) {
-                    var data = JSON.parse(json)
-                    if(!data || data.length<1){
+                success: function (json) {                 
+                    if(!json || json.length<1){
                         wledEffectsConfig={
                             colors:[
                                 '#ff0000',
@@ -138,7 +137,7 @@ $(function(){
                             systems:uniqueSystemIps
                         }
                     }else{
-                        wledEffectsConfig = data;
+                        wledEffectsConfig = JSON.parse(json);
                     }
                     uniqueModels = [];
                     
