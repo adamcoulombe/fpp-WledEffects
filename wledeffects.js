@@ -138,6 +138,7 @@ $(function(){
                         }
                     }else{
                         wledEffectsConfig = JSON.parse(json);
+                        wledEffectsConfig.systems = uniqueSystemIps;
                     }
                     uniqueModels = [];
                     
