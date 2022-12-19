@@ -76,7 +76,11 @@
                 
                 </div>
              </div>  
-
+                <div class="backdrop mb-4">
+                    <button class="buttons btn-danger" id="fpp-WledEffects-reset">Reset WLED Effects Plugin</button>
+                    <p><small class="form-text text-muted">You can reset the plugin configuration if you experiencing issues.</small></p>
+                    
+                </div>
             </div>
     </div>
 

@@ -4,7 +4,6 @@ var wledEffectsConfig = {}
 
 function SaveWledEffectsConfig() {
     var data = JSON.stringify(wledEffectsConfig);
-    // console.log(data)
     $.ajax({
         type: "POST",
         url: 'fppjson.php?command=setPluginJSON&plugin=fpp-WledEffects',
@@ -44,23 +43,31 @@ function getUniqueModels(){
     var uniqueSystemModelRequests = [];
     uniqueModels = [];
     $.each(wledEffectsConfig.systems,(i,v)=>{
-        uniqueSystemModelRequests.push(
-            $.ajax({
-                type: "GET",
-                url: 'http://'+v+'/api/models',
-                dataType: 'json',
-                success: function (data) {
-                    $.each(data,function(j,w){
-                        
-                        if($.inArray(w.Name,uniqueModels)===-1){
-                            uniqueModels.push(w.Name);
-                            //console.log(uniqueModels)
+
+                uniqueSystemModelRequests.push(
+                    $.ajax({
+                        type: "GET",
+                        url: '/plugin.php?plugin=fpp-WledEffects&page=remotemodels.php&nopage=1&ip='+v,
+                        dataType: 'json',
+                        success: function (data) {
+                            if("error" in data){
+                                console.warn("Could not access model API for "+v);
+                            }else{
+                                $.each(data,function(j,w){
+                                
+                                    if($.inArray(w.Name,uniqueModels)===-1){
+                                        uniqueModels.push(w.Name);
+                                    }
+                                })
+                            }
                         }
                     })
-                }
-            })
-        )
+                )     
+
+      
+
     })
+    
     return uniqueSystemModelRequests;
 }
 
@@ -138,13 +145,12 @@ $(function(){
                         }
                     }else{
                         wledEffectsConfig = JSON.parse(json);
+                        wledEffectsConfig.systems = uniqueSystemIps;
                     }
-                    uniqueModels = [];
-                    
                     $.when.apply(undefined, getUniqueModels()).then(()=>{                  
-                            
+                        
                         renderModelSelections(uniqueModels)
-
+                        
                         
                         $.each(systems,function(i,v){
                             var isChecked = wledEffectsConfig.systems.indexOf(v.address)>-1 ? 'checked':'';
@@ -212,7 +218,13 @@ $(function(){
 
         
   
-
+    $('#fpp-WledEffects-reset').on('click',function(){
+        $.ajax({
+            url: "/plugin.php?plugin=fpp-WledEffects&page=resetpluginsettings.php",
+        }).done(function() {
+            $.jGrowl("fpp-WledEffects Plugin Settings have been reset",{themeState:'success'});
+        });
+    })
     $('#cancelEffects').on('click',function(){
         stopWledEffects();
     });
