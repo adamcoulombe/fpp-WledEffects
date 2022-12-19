@@ -41,7 +41,10 @@
                                     <label><input type="checkbox"> All Models</label>
                                 </div>
                                 <div class="fpp-WledEffects-Model-Selections">
-                                <button class="fpp-WledEffects-Model-Toggle"><i class="fas fa-chevron-down"></i></button>
+                                    <div class="spinner-border spinner-danger spinner" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <button class="fpp-WledEffects-Model-Toggle"><i class="fas fa-chevron-down"></i></button>
                                 </div>
                             </div>
                         </div>

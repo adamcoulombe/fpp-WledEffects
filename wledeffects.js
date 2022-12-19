@@ -42,37 +42,52 @@ function getSelectedSystems(){
 function getUniqueModels(){
     var uniqueSystemModelRequests = [];
     uniqueModels = [];
-    $.each(wledEffectsConfig.systems,(i,v)=>{
-
-                uniqueSystemModelRequests.push(
-                    $.ajax({
-                        type: "GET",
-                        url: '/plugin.php?plugin=fpp-WledEffects&page=remotemodels.php&nopage=1&ip='+v,
-                        dataType: 'json',
-                        success: function (data) {
-                            if("error" in data){
-                                console.warn("Could not access model API for "+v);
-                            }else{
-                                $.each(data,function(j,w){
-                                
-                                    if($.inArray(w.Name,uniqueModels)===-1){
-                                        uniqueModels.push(w.Name);
-                                    }
-                                })
-                            }
+    if(wledEffectsConfig.multisync==true){
+        $.each(wledEffectsConfig.systems,(i,v)=>{
+            uniqueSystemModelRequests.push(
+                $.ajax({
+                    type: "GET",
+                    url: '/plugin.php?plugin=fpp-WledEffects&page=remotemodels.php&nopage=1&ip='+v,
+                    dataType: 'json',
+                    success: function (data) {
+                        if("error" in data){
+                            console.warn("Could not access model API for "+v);
+                        }else{
+                            $.each(data,function(j,w){
+                            
+                                if($.inArray(w.Name,uniqueModels)===-1){
+                                    uniqueModels.push(w.Name);
+                                }
+                            })
+                        }
+                    }
+                })
+            )     
+        });
+    }else{
+        uniqueSystemModelRequests.push(
+            $.ajax({
+                type: "GET",
+                url: '/api/models',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data,function(j,w){
+                    
+                        if($.inArray(w.Name,uniqueModels)===-1){
+                            uniqueModels.push(w.Name);
                         }
                     })
-                )     
+                }
+            })
+        )        
+    }
 
-      
-
-    })
     
     return uniqueSystemModelRequests;
 }
 
 function renderModelSelections(){
-    $('.fpp-WledEffects-Model-Selections label').remove();
+    $('.fpp-WledEffects-Model-Selections label, .fpp-WledEffects-Model-Selections .spinner').remove();
     $.each(uniqueModels,function(i,v){
         var isChecked = wledEffectsConfig.models.indexOf(v)>-1 ? 'checked':'';
         $('.fpp-WledEffects-Model-Selections').append(
@@ -145,7 +160,6 @@ $(function(){
                         }
                     }else{
                         wledEffectsConfig = JSON.parse(json);
-                        wledEffectsConfig.systems = uniqueSystemIps;
                     }
                     $.when.apply(undefined, getUniqueModels()).then(()=>{                  
                         
