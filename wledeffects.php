@@ -22,7 +22,7 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-4">
+    <div class="col-xlg-4 col-lg-5 col-md-6">
     <ul class="nav nav-pills fpp-WledEffects-nav " role="tablist">
         <li class="nav-item" role="presentation">
             <a class="nav-link active" id="fpp-WledEffects-controls-tab-link" data-bs-toggle="pill" href="#fpp-WledEffects-controls-tab" role="tab" aria-controls="home" aria-selected="true"><i class="fas fa-sliders-h"></i></a>
@@ -93,7 +93,7 @@
     </div>
 
     </div>
-    <div class="col-lg">
+    <div class="col-xlg-8 col-lg-7 col-md-6">
  
         <div id="availableWledEffects" class="row"></div>
     </div>
