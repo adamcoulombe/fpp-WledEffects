@@ -92,7 +92,6 @@
   }
   #availableWledEffects button{
     appearance: none;
-    font-size: 1.4em;
     background-color: #f1f1f1;
     padding:1em;
     border:none;
@@ -124,4 +123,31 @@
   .fpp-WledEffects-nav{
     margin-top: -50px;
   }
+}
+
+.input[type="range"] {
+  width: fit-content;
+  margin: 13.8px 0;
+}
+
+#fpp-WledEffects-Settings span {
+    display: flex;
+    flex-wrap: nowrap;
+}
+#fpp-WledEffects-Settings td {
+    padding: 8px;
+}
+#fpp-WledEffects-Settings table {
+    width: 100%;
+}
+#fpp-WledEffects-Settings tr td:nth-child(2) {
+    width: 100%;
+}
+.wledButtonRow {
+    width: 100%;
+}
+.wledButtonRowDiv {
+    display: flex;
+    flex-wrap: nowrap;
+    place-content: center;
 }

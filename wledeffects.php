@@ -22,13 +22,13 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-4">
+    <div class="col-xlg-4 col-lg-5 col-md-6">
     <ul class="nav nav-pills fpp-WledEffects-nav " role="tablist">
         <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="fpp-WledEffects-controls-tab-link" data-toggle="pill" href="#fpp-WledEffects-controls-tab" role="tab" aria-controls="home" aria-selected="true"><i class="fas fa-sliders-h"></i></a>
+            <a class="nav-link active" id="fpp-WledEffects-controls-tab-link" data-bs-toggle="pill" href="#fpp-WledEffects-controls-tab" role="tab" aria-controls="home" aria-selected="true"><i class="fas fa-sliders-h"></i></a>
         </li>
         <li class="nav-item" role="presentation">
-            <a class="nav-link" id="fpp-WledEffects-settings-tab-link" data-toggle="pill" href="#fpp-WledEffects-settings-tab" role="tab" aria-controls="profile" aria-selected="false"><i class="fas fa-cog"></i></a>
+            <a class="nav-link" id="fpp-WledEffects-settings-tab-link" data-bs-toggle="pill" href="#fpp-WledEffects-settings-tab" role="tab" aria-controls="profile" aria-selected="false"><i class="fas fa-cog"></i></a>
         </li>
     </ul>
     <div class="tab-content mt-2">
@@ -49,21 +49,27 @@
                             </div>
                         </div>
                     </div>
-                    <div id="fpp-WledEffects-Colors" class="backdrop mb-3">
-                        <h2>Colors</h2>
-                        <div class="row">
-                            <div class="col"><button class="wl-circleButton buttonColor" type="button" data-wled-color-id=1></button></div>
-                            <div class="col"><button class="wl-circleButton buttonColor" type="button" data-wled-color-id=2></button></div>
-                            <div class="col"><button class="wl-circleButton buttonColor" type="button" data-wled-color-id=3></button></div>
-                        </div>
+                    <div id="fpp-WledEffects-Settings" class="backdrop mb-3">
+                        <h2 id="EffectName">Effect</h2>
+                        <table class="tblCommandEditor" id="wledTblCommandEditor">
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
-                    <div id="fpp-WledEffects-Settings" class="backdrop">
-                        <label for="fpp-WledEffects-brightness"><i class="far fa-sun"></i> Brightness</label>
-                        <input id="fpp-WledEffects-brightness" type="range" class="mb-2" min="0" max="255" value="128" step="1">
-                        <label for="fpp-WledEffects-speed"><i class="far fa-clock"></i> Speed</label>
-                        <input id="fpp-WledEffects-speed" type="range" class="mb-2" min="0" max="255" value="128" step="1">
-                        <label for="fpp-WledEffects-intensity"><i class="fas fa-fire"></i> Intensity</label>
-                        <input id="fpp-WledEffects-intensity" type="range" class="mb-2" min="0" max="255" value="128" step="1">
+                    <div id="fpp-WledEffects-Buttons" class="backdrop mb-3" style="display: none;">
+                        <div class="row wledButtonRow">
+                            <div class="col-6 wledButtonRowDiv">
+                                <button id="runEffect1" class="buttons btn-success" onClick="RunWledEffect()">Run&nbsp;Effect</button>
+                            </div>
+                            <div class="col-6 wledButtonRowDiv">
+                                <button id="cancelEffects1" class="buttons btn-danger" onClick="stopWledEffects()">Stop&nbsp;Effects</button>
+                            </div>
+                            <!--
+                            <div class="col-4 wledButtonRowDiv">
+                                <button id="cancelEffects1" class="buttons" onClick="AddPreset()">Add&nbsp;Preset</button>
+                            </div>
+                            -->
+                        </div>
                     </div>
                 </div>
             <div class="tab-pane fade" id="fpp-WledEffects-settings-tab" role="tabpanel" aria-labelledby="fpp-WledEffects-settings-tab">
@@ -76,7 +82,6 @@
 
                 </div>
                 <div id="fpp-WledEffects-systems">
-                
                 </div>
              </div>  
                 <div class="backdrop mb-4">
@@ -88,7 +93,7 @@
     </div>
 
     </div>
-    <div class="col-lg">
+    <div class="col-xlg-8 col-lg-7 col-md-6">
  
         <div id="availableWledEffects" class="row"></div>
     </div>
