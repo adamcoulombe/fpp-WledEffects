@@ -1,9 +1,9 @@
 
 <div>
-<link  rel="stylesheet" href="/jquery/colpick/css/colpick.css"/>
-<link  rel="stylesheet" href="/plugin.php?plugin=fpp-WledEffects&page=wledeffects.css&nopage=1"/>
-<script src="/jquery/colpick/js/colpick.js"></script>
-<script src="/plugin.php?plugin=fpp-WledEffects&page=wledeffects.js&nopage=1"></script>
+<link  rel="stylesheet" href="jquery/colpick/css/colpick.css"/>
+<link  rel="stylesheet" href="plugin.php?plugin=fpp-WledEffects&file=wledeffects.css&nopage=1"/>
+<script src="jquery/colpick/js/colpick.js"></script>
+<script src="plugin.php?plugin=fpp-WledEffects&file=wledeffects.js&nopage=1"></script>
 
 
 <!-- <button id="submitEffects">submit</button> -->
