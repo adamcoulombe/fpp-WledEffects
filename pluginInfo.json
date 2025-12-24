@@ -1,24 +1,35 @@
 {
-	"repoName": "fpp-WledEffects",
-	"name": "WLED Effects",
-	"author": "Adam Coulombe",
-	"description": "This plugin adds a UI page with buttons to start and stop the built-in WLED effects",
-	"homeURL": "https://github.com/adamcoulombe/fpp-WledEffects",
-	"srcURL": "https://github.com/adamcoulombe/fpp-WledEffects.git",
-	"bugURL": "https://github.com/adamcoulombe/fpp-WledEffects/issues",
-	"versions": [
-		{
-			"minFPPVersion": "5.0",
-			"maxFPPVersion": "6.999",
-			"branch": "main",
-			"sha": "0763c8537d8dceebebf0890eb2513ad62b965dc6"
-		},
-                {
-                        "minFPPVersion": "7.0",
-                        "maxFPPVersion": "0",
-                        "branch": "main",
-                        "sha": ""
-                }
-	]
+  "repoName": "fpp-WledEffects",
+  "name": "WLED Effects",
+  "author": "Adam Coulombe (community updates for FPP 8.x/9.x)",
+  "description": "Adds a UI page with buttons to start/stop built-in WLED effects on Pixel Overlay Models. Updated for FPP 8.x and 9.x compatibility (new API endpoints, multisync fixes, no duplicates, auto-scroll). Tested on 9.4.",
+  "homeURL": "https://github.com/adamcoulombe/fpp-WledEffects",
+  "srcURL": "https://github.com/adamcoulombe/fpp-WledEffects.git",
+  "bugURL": "https://github.com/adamcoulombe/fpp-WledEffects/issues",
+  "versions": [
+    {
+      "minFPPVersion": "5.0",
+      "maxFPPVersion": "6.999",
+      "branch": "main",
+      "sha": "0763c8537d8dceebebf0890eb2513ad62b965dc6"
+    },
+    {
+      "minFPPVersion": "7.0",
+      "maxFPPVersion": "7.999",
+      "branch": "main",
+      "sha": ""
+    },
+    {
+      "minFPPVersion": "8.0",
+      "maxFPPVersion": "8.999",
+      "branch": "main",
+      "sha": ""
+    },
+    {
+      "minFPPVersion": "9.0",
+      "maxFPPVersion": "9.999",
+      "branch": "main",
+      "sha": ""
+    }
+  ]
 }
-
