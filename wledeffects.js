@@ -89,11 +89,19 @@ function processModelsData(data) {
     uniqueModels.sort();
 }
 
+// Always clear the loading spinner before reporting a model fetch failure,
+// otherwise the spinner spins forever when the models API is unavailable.
+function showModelLoadError(message) {
+    $('.fpp-WledEffects-Model-Selections .spinner').remove();
+    $('.fpp-WledEffects-Model-Selections p.text-danger').remove();
+    $('.fpp-WledEffects-Model-Selections').append('<p class="text-danger">' + message + '</p>');
+}
+
 function renderModelSelections() {
-    $('.fpp-WledEffects-Model-Selections .spinner, .fpp-WledEffects-Model-Selections p.error, .fpp-WledEffects-Model-Selections label').remove();
+    $('.fpp-WledEffects-Model-Selections .spinner, .fpp-WledEffects-Model-Selections p.error, .fpp-WledEffects-Model-Selections p.text-danger, .fpp-WledEffects-Model-Selections label').remove();
 
     if (uniqueModels.length === 0) {
-        $('.fpp-WledEffects-Model-Selections').append('<p class="error" style="color:red;">No models found</p>');
+        $('.fpp-WledEffects-Model-Selections').append('<p class="text-danger">No models found</p>');
         return;
     }
 
@@ -156,16 +164,22 @@ function applyWLEDConfigToSystems(systems) {
                 SaveWledEffectsConfig();
             }).fail(function() {
                 console.error("Multisync model fetch failed after toggle");
-                $('.fpp-WledEffects-Model-Selections').append('<p style="color:red;">Failed to load models from selected systems</p>');
+                showModelLoadError('Failed to load models from selected systems');
             });
         });
+    }).fail(function() {
+        showModelLoadError('Failed to load models');
     });
 
     if ($('#fpp-WledEffects-Colors button').length) {
+        // colpick ships its own light-themed popup; use its built-in dark
+        // scheme when FPP 10 is in dark mode so the color picker stays readable.
+        var wledTheme = document.documentElement.getAttribute('data-bs-theme');
+        var wledColorScheme = wledTheme === 'dark' ? 'dark' : 'flat';
         $('#fpp-WledEffects-Colors button').each(function(i) {
             var wledColorId = $(this).data('wled-color-id');
             $(this).colpick({
-                colorScheme: 'flat',
+                colorScheme: wledColorScheme,
                 layout: 'rgbhex',
                 color: wledEffectsConfig.colors[i] || '#ff0000',
                 onSubmit: function(hsb, newHex) {
@@ -345,8 +359,11 @@ $(document).ready(function() {
         $.when.apply(undefined, getUniqueModels()).then(() => {
             renderModelSelections();
             if (uniqueModels.length === 0) {
-                setTimeout(() => $.when.apply(undefined, getUniqueModels()).then(renderModelSelections), 1500);
+                setTimeout(() => {
+                    $.when.apply(undefined, getUniqueModels()).then(renderModelSelections)
+                        .fail(() => showModelLoadError('Failed to load models'));
+                }, 1500);
             }
-        });
+        }).fail(() => showModelLoadError('Failed to load models'));
     }, 500);
 });

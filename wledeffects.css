@@ -2,6 +2,10 @@
     box-sizing: border-box;
   }
 
+/* FPP 10 uses Bootstrap 5.3's data-bs-theme attribute on the root element.
+   Every color below is driven by a Bootstrap/FPP CSS custom property so the
+   plugin follows the active theme automatically. Do not reintroduce hardcoded
+   colors here - they are exactly what make the UI unreadable in dark mode. */
 
 .fpp-WledEffects-Model-Selections{
   height: 50px;
@@ -12,7 +16,8 @@
   float: right;
   appearance: none;
   border-radius: 12px;
-  background-color: rgb(226, 226, 226);
+  background-color: var(--bs-secondary-bg, #e2e2e2);
+  color: var(--bs-body-color, #212529);
   padding: 0.5em 0.6em;
   font-size: 1.4em;
   border:none;
@@ -24,21 +29,22 @@
 .fpp-WledEffects-Model-Selections.open .fpp-WledEffects-Model-Toggle i{
   transform: rotateZ(180deg);
 }
+/* Fade the collapsed model list into the surrounding card/surface color. */
 .fpp-WledEffects-Model-Selections:after {
   content:'';
   width:calc(100% - 50px);
-  height:100%;    
+  height:100%;
   position:absolute;
   display: block;
   left:0;
   top:0;
-  background:linear-gradient(rgba(245,245,245,0), rgb(245, 245, 245));
+  background:linear-gradient(transparent, var(--bs-body-bg, #fff));
 }
 .fpp-WledEffects-Model-Selections label{
   cursor: pointer;
   display: inline-block;
-  color: #5a5a5a;
-  
+  color: var(--fpp-text-muted, var(--bs-body-color, #5a5a5a));
+
   font-size: 0.8em;
   margin-right: 0.6em;
 }
@@ -48,7 +54,7 @@
   width: 12px;
   height: 12px;
   background-size: contain;
-  
+
   margin-right: 0.3em;
 }
 
@@ -64,12 +70,13 @@
     padding: 5px;
     cursor: pointer;
     display: inline-block;
-    border: 1px solid #DADADA;
+    border: 1px solid var(--bs-border-color, #dadada);
     border-radius: 8px;
+    color: var(--bs-body-color, #212529);
   }
   .fpp-WledEffects-Model-Selections.open label:hover, #fpp-WledEffects-systems label:hover{
-    border: 1px solid #c2c2c2;
-    background-color: #f1f1f1;
+    border-color: var(--bs-border-color, #c2c2c2);
+    background-color: var(--bs-tertiary-bg, #f1f1f1);
   }
   .fpp-WledEffects-Model-Selections.open label input[type="checkbox"], #fpp-WledEffects-systems label input[type="checkbox"]{
     margin-right: 0.5em;
@@ -77,8 +84,9 @@
     height: 24px;
   }
   .fpp-WledEffects-Model-Selections.open label.selected, #fpp-WledEffects-systems label.selected{
-    border: 1px solid #56B760;
-    background-color: #daeedc ;
+    border-color: var(--bs-success, #198754);
+    background-color: var(--bs-success-bg-subtle, #d1e7dd);
+    color: var(--bs-success-text-emphasis, #0a3622);
   }
   .fpp-WledEffects-Model-Grouping-Heading label{
     font-size: 1.4em;
@@ -92,7 +100,8 @@
   }
   #availableWledEffects button{
     appearance: none;
-    background-color: #f1f1f1;
+    background-color: var(--bs-secondary-bg, #f1f1f1);
+    color: var(--bs-body-color, #212529);
     padding:1em;
     border:none;
     font-weight: bold;
@@ -103,7 +112,7 @@
     text-align: center;
   }
   #availableWledEffects button:hover{
-    background-color: #dfdfdf;
+    background-color: var(--bs-border-color, #dfdfdf);
   }
   .wl-circleButton{
     display:block;

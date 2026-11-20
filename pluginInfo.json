@@ -6,6 +6,26 @@
   "homeURL": "https://github.com/adamcoulombe/fpp-WledEffects",
   "srcURL": "https://github.com/adamcoulombe/fpp-WledEffects.git",
   "bugURL": "https://github.com/adamcoulombe/fpp-WledEffects/issues",
+  "iconURL": "https://raw.githubusercontent.com/adamcoulombe/fpp-WledEffects/main/icon.png",
+  "releaseNotesStyle": "gitHistory",
+  "allowUpdates": 1,
+  "privacy": {
+    "summary": "Runs on this FPP player and talks only to the other FPP players you list in Multisync settings, to read their model names and start or stop WLED effects on them.",
+    "sends": [
+      {
+        "to": "http://the FPP players you list",
+        "what": "a request for their overlay model list, and WLED effect start and stop commands",
+        "why": "to read model names and run effects on those players",
+        "alwaysOn": false
+      }
+    ],
+    "collects": [],
+    "sensors": [],
+    "remoteAccess": "none",
+    "systemChanges": [],
+    "closedCode": false,
+    "other": "none"
+  },
   "versions": [
     {
       "minFPPVersion": "5.0",
@@ -27,6 +47,12 @@
     },
     {
       "minFPPVersion": "9.0",
+      "maxFPPVersion": "9.999",
+      "branch": "main",
+      "sha": ""
+    },
+    {
+      "minFPPVersion": "10.0",
       "maxFPPVersion": "0",
       "branch": "main",
       "sha": ""
