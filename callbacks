@@ -1,0 +1,10 @@
+#!/bin/sh
+# Minimal callbacks script. FPP needs a callbacks file in order to register
+# this plugin's commands (from commands/descriptions.json) live on install and
+# unload; this plugin does no lifecycle work, so every callback is a no-op.
+case "$1" in
+    --list)
+        echo "lifecycle"
+        ;;
+esac
+exit 0

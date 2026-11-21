@@ -1,0 +1,34 @@
+[
+  {
+    "name": "WLED Effect Start",
+    "script": "startWledEffect.sh",
+    "description": "Start a WLED effect on the chosen overlay models. Multisync hosts come from this plugin's settings.",
+    "args": [
+      {
+        "name": "Models",
+        "type": "multistring",
+        "description": "Models",
+        "contentListUrl": "api/models?simple=true&all=true&submodels=true",
+        "allowBlanks": false
+      },
+      {
+        "name": "AutoEnable",
+        "type": "string",
+        "description": "Auto Enable/Disable",
+        "contents": [
+          "False",
+          "Enabled",
+          "Transparent",
+          "Transparent RGB"
+        ],
+        "default": "Enabled"
+      },
+      {
+        "name": "Effect",
+        "type": "subcommand",
+        "description": "Effect",
+        "contentListUrl": "api/overlays/effects/"
+      }
+    ]
+  }
+]
