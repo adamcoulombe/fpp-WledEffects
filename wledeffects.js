@@ -334,7 +334,7 @@ $(document).ready(function() {
     });
 
     $('#fpp-WledEffects-reset').on('click', function() {
-        $.ajax({ url: "plugin.php?plugin=fpp-WledEffects&page=resetpluginsettings.php" }).done(function() {
+        $.ajax({ type: 'POST', url: "plugin.php?plugin=fpp-WledEffects&page=resetpluginsettings.php" }).done(function() {
             $.jGrowl("Plugin settings reset", {themeState: 'success'});
             location.reload();
         });
